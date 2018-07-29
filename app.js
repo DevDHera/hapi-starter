@@ -10,8 +10,17 @@ const server = Hapi.Server({
   port
 });
 
-// Start the server
-async function start() {
+// Add Home Route
+server.route({
+  method: 'GET',
+  path: '/',
+  handler: (request, h) => {
+    return 'Hello World :)';
+  }
+});
+
+// Create a start method for the server
+const start = async () => {
   try {
     await server.start();
   } catch (err) {
@@ -20,6 +29,7 @@ async function start() {
   }
 
   console.log('Server running at:', server.info.uri);
-}
+};
 
+// Call the start method
 start();
