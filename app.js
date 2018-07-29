@@ -19,9 +19,19 @@ server.route({
   }
 });
 
+// Static Routes
+server.route({
+  method: 'GET',
+  path: '/about',
+  handler: (request, h) => {
+    return h.file('./public/about.html');
+  }
+});
+
 // Create a start method for the server
 const start = async () => {
   try {
+    await server.register(require('inert'));
     await server.start();
   } catch (err) {
     console.log(err);
