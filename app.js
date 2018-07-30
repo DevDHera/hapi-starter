@@ -15,7 +15,10 @@ server.route({
   method: 'GET',
   path: '/',
   handler: (request, h) => {
-    return 'Hello World :)';
+    // return 'Hello World :)';
+    return h.view('index', {
+      name: 'Devin'
+    });
   }
 });
 
@@ -31,7 +34,18 @@ server.route({
 // Create a start method for the server
 const start = async () => {
   try {
+    // Register Inert
     await server.register(require('inert'));
+    // Register Vision and Configure Vision Templates
+    await server.register(require('vision'));
+
+    server.views({
+      engines: {
+        html: require('handlebars')
+      },
+      path: __dirname + '/views'
+    });
+
     await server.start();
   } catch (err) {
     console.log(err);
