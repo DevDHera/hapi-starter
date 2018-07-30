@@ -1,4 +1,15 @@
 const Hapi = require('hapi');
+const mongoose = require('mongoose');
+const keys = require('./configs/keys');
+const Contact = require('./models/Contact');
+// Connect to MongoDB instance
+mongoose
+  .connect(
+    keys.mongoURI,
+    { useNewUrlParser: true }
+  )
+  .then(console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 // Store the hosting server and the port
 const host = 'localhost';
@@ -31,12 +42,22 @@ server.route({
   }
 });
 
-// Add Contacts Route
+// GET Contacts Route
 server.route({
   method: 'GET',
   path: '/contacts',
   handler: (request, h) => {
-    return h.view('contacts', {
+    return Contact.find()
+      .exec()
+      .then(contacts => {
+        return h.view('contacts', {
+          contacts
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    /* return h.view('contacts', {
       contacts: [
         {
           name: 'Devin Herath',
@@ -51,7 +72,27 @@ server.route({
           number: '071-1111113'
         }
       ]
-    });
+    }); */
+  }
+});
+
+// POST Contacts Route
+server.route({
+  method: 'POST',
+  path: '/contacts',
+  handler: (request, h) => {
+    const contactData = {
+      name: request.payload.name,
+      number: request.payload.number
+    };
+
+    return Contact.create(contactData)
+      .then(contact => {
+        return h.redirect().location('contacts');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 });
 
