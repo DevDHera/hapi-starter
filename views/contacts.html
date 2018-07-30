@@ -1,0 +1,23 @@
+<h1>Contacts</h1>
+
+<!-- <ul>
+    {{#each contacts}}
+    <li>{{name}} {{number}}</li>
+    {{/each}}
+</ul> -->
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each contacts}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{number}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

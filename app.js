@@ -31,6 +31,30 @@ server.route({
   }
 });
 
+// Add Contacts Route
+server.route({
+  method: 'GET',
+  path: '/contacts',
+  handler: (request, h) => {
+    return h.view('contacts', {
+      contacts: [
+        {
+          name: 'Devin Herath',
+          number: '071-1111111'
+        },
+        {
+          name: 'Vimal Bandara',
+          number: '071-1111112'
+        },
+        {
+          name: 'Surendra Peiris',
+          number: '071-1111113'
+        }
+      ]
+    });
+  }
+});
+
 // Create a start method for the server
 const start = async () => {
   try {
